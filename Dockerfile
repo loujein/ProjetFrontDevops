@@ -1,4 +1,16 @@
-FROM nginx:1.17.1-alpine
-COPY ./dist/crudtuto-Front /usr/share/nginx/html
-EXPOSE 4200
-CMD ["nginx", "-g", "daemon off;"]
+# Use official node image as the base image
+FROM node:16.13.1-alpine
+
+# Set the working directory
+WORKDIR /usr/local/app
+
+# Add the source code to app
+COPY ./ /usr/local/app/
+
+# Install all the dependencies
+RUN npm ic
+
+# Generate the build of the application
+RUN npm install -g @angular/cli@7.3.10
+
+CMD ng serve --host 0.0.0.0
